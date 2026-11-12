@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D4)
 ![Status](https://img.shields.io/badge/hardware%20validated-2026--11--12-brightgreen)
-![Version](https://img.shields.io/badge/version-0.1.0--alpha.1-lightgrey)
+![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-lightgrey)
 
 </div>
 
@@ -69,7 +69,7 @@ The device path is indirect: Windows cannot see the Watch, so the program uses t
 
 ## Install and run
 
-Download the `watchbridge-windows` artifact from the `windows` job on [Actions](https://github.com/AdminZachary/iloader-for-windows/actions/workflows/windows.yml) and run `WatchBridge.exe` after extracting.
+Download `watchbridge-windows.zip` from [Releases](https://github.com/AdminZachary/iloader-for-windows/releases/latest), extract it and run `WatchBridge.exe`.
 
 The archive contains:
 

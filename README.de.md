@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D4)
 ![Status](https://img.shields.io/badge/hardware%20validated-2026--11--12-brightgreen)
-![Version](https://img.shields.io/badge/version-0.1.0--alpha.1-lightgrey)
+![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-lightgrey)
 
 </div>
 
@@ -69,7 +69,7 @@ Der Weg zum Gerät ist indirekt: Windows sieht die Uhr nicht, deshalb benutzt da
 
 ## Installation und Start
 
-Lade das Artefakt `watchbridge-windows` aus dem `windows`-Job unter [Actions](https://github.com/AdminZachary/iloader-for-windows/actions/workflows/windows.yml), entpacke es und starte `WatchBridge.exe`.
+Lade `watchbridge-windows.zip` von [Releases](https://github.com/AdminZachary/iloader-for-windows/releases/latest), entpacke es und starte `WatchBridge.exe`.
 
 Das Archiv enthält:
 

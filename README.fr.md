@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D4)
 ![Status](https://img.shields.io/badge/hardware%20validated-2026--11--12-brightgreen)
-![Version](https://img.shields.io/badge/version-0.1.0--alpha.1-lightgrey)
+![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-lightgrey)
 
 </div>
 
@@ -69,7 +69,7 @@ Le chemin vers l'appareil est indirect : Windows ne voit pas la montre, donc le 
 
 ## Installation et exécution
 
-Téléchargez l'artefact `watchbridge-windows` du job `windows` dans [Actions](https://github.com/AdminZachary/iloader-for-windows/actions/workflows/windows.yml), décompressez-le et lancez `WatchBridge.exe`.
+Téléchargez `watchbridge-windows.zip` depuis [Releases](https://github.com/AdminZachary/iloader-for-windows/releases/latest), décompressez-le et lancez `WatchBridge.exe`.
 
 L'archive contient :
 

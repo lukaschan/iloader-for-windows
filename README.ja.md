@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D4)
 ![Status](https://img.shields.io/badge/hardware%20validated-2026--11--12-brightgreen)
-![Version](https://img.shields.io/badge/version-0.1.0--alpha.1-lightgrey)
+![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-lightgrey)
 
 </div>
 
@@ -69,7 +69,7 @@ iLoader はその半分（iPhone 側）を Rust で Windows に移植しまし�
 
 ## インストールと実行
 
-[Actions](https://github.com/AdminZachary/iloader-for-windows/actions/workflows/windows.yml) の `windows` ジョブから `watchbridge-windows` アーティファクトを取得し、展開して `WatchBridge.exe` を実行します。
+[Releases](https://github.com/AdminZachary/iloader-for-windows/releases/latest) から `watchbridge-windows.zip` を取得し、展開して `WatchBridge.exe` を実行します。
 
 アーカイブの内容:
 

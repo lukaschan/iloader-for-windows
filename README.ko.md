@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D4)
 ![Status](https://img.shields.io/badge/hardware%20validated-2026--11--12-brightgreen)
-![Version](https://img.shields.io/badge/version-0.1.0--alpha.1-lightgrey)
+![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-lightgrey)
 
 </div>
 
@@ -69,7 +69,7 @@ iLoader는 그 절반(아이폰 쪽)을 Rust로 Windows에서 다시 구현했�
 
 ## 설치와 실행
 
-[Actions](https://github.com/AdminZachary/iloader-for-windows/actions/workflows/windows.yml)의 `windows` 작업에서 `watchbridge-windows` 아티팩트를 내려받아 압축을 풀고 `WatchBridge.exe`를 실행하세요.
+[Releases](https://github.com/AdminZachary/iloader-for-windows/releases/latest)에서 `watchbridge-windows.zip`을 내려받아 압축을 풀고 `WatchBridge.exe`를 실행하세요.
 
 압축 파일 구성:
 
