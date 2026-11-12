@@ -1,0 +1,36 @@
+name: Build macOS
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macos-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test and build macOS disk image
+        run: ./scripts/Build-MacOS.sh --build-app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: watchbridge-macos
+          if-no-files-found: error
+          path: artifacts/macos/*

@@ -1,3 +1,28 @@
+# Building on macOS
+
+Install Git, Bun, Rust (stable) and Python 3.12 on macOS. No Xcode project is
+involved; the Tauri bundler only needs the Command Line Tools. Run from a
+fresh checkout:
+
+```sh
+# Frontend build + Rust unit tests only.
+./scripts/Build-MacOS.sh
+
+# Also build the universal (Apple Silicon + Intel) disk image.
+./scripts/Build-MacOS.sh --build-app
+```
+
+The script mirrors `Build-Windows.ps1`: it builds the frontend, runs the
+`iloader` and `isideload` Rust unit tests (unless `--skip-tests`), builds with
+`src-tauri/ci.conf.json` for the `universal-apple-darwin` target and writes
+`artifacts/macos/WatchBridge.dmg` together with `BUILD.json`, `SHA256SUMS.txt`
+and `LICENSES.zip` in the same provenance format as the Windows build. The app
+is unsigned; Gatekeeper requires a right-click → Open on first launch. The
+Windows "start on login" option is unavailable in macOS builds.
+
+GitHub Actions runs the same script (`.github/workflows/macos.yml`) and
+`.github/workflows/release.yml` publishes Windows and macOS zips together.
+
 # Building on Windows
 
 Install Python 3.12, Git, Bun, Rust with the Windows MSVC toolchain, and Visual Studio Build

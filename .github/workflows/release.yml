@@ -1,0 +1,113 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, e.g. v0.1.0-alpha.1-fork.1"
+        required: true
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - uses: ilammy/msvc-dev-cmd@v1
+      - run: choco install strawberryperl make --no-progress
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test and build Windows executable
+        shell: pwsh
+        env:
+          PYTHONUTF8: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: ./scripts/Build-Windows.ps1 -BuildExecutable
+      - name: Zip Windows artifact
+        shell: pwsh
+        run: Compress-Archive -Path artifacts/windows/* -DestinationPath watchbridge-windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-windows
+          if-no-files-found: error
+          path: watchbridge-windows.zip
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test and build macOS disk image
+        run: ./scripts/Build-MacOS.sh --build-app
+      - name: Zip macOS artifact
+        run: cd artifacts/macos && zip -r ../../watchbridge-macos.zip .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-macos
+          if-no-files-found: error
+          path: watchbridge-macos.zip
+
+  publish:
+    needs: [windows, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: staging
+          merge-multiple: true
+      - name: Create or update the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          ls -la staging
+          cat > notes.md <<'NOTES'
+          WatchBridge fork build (upstream: AdminZachary/iloader-for-windows).
+
+          Assets:
+          - `watchbridge-windows.zip` — WatchBridge.exe + BUILD.json + SHA256SUMS.txt + LICENSES.zip
+          - `watchbridge-macos.zip` — WatchBridge.dmg (universal: Apple Silicon + Intel) + BUILD.json + SHA256SUMS.txt + LICENSES.zip
+
+          Both builds are unsigned.
+          - Windows: SmartScreen will warn on first run; choose "More info" → "Run anyway".
+          - macOS: open the DMG and drag WatchBridge into Applications. Gatekeeper will
+            block the first launch; right-click the app → Open, or run:
+            `xattr -dr com.apple.quarantine /Applications/WatchBridge.app`
+
+          Notes for the macOS build: the watch flow is protocol-identical to Windows but
+          has not been validated on physical hardware yet, and the Windows "start on
+          login" option is unavailable on macOS in this build.
+          NOTES
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" staging/*.zip --repo "$GITHUB_REPOSITORY" --clobber
+            gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" \
+              --title "WatchBridge $TAG" --notes-file notes.md --prerelease
+          else
+            gh release create "$TAG" staging/*.zip --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" --title "WatchBridge $TAG" \
+              --notes-file notes.md --prerelease
+          fi
